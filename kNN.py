@@ -5,27 +5,28 @@ import operator
 from scipy.spatial.distance import euclidean
 from collections import Counter
 
+
 class KNN(object):
     u"Klasa implementująca algorytm kNN realizujący zadanie klasyfikacji z metryką Euklidesowską."
-    def __init__(self, learnData, k):
+
+    def __init__(self, learn_data, k):
         print("hello")
         self.k = k
-        self.list = learnData
+        self.data = np.array(learn_data.ix[:, 0:4])
+        self.labels = np.array(learn_data['class'])
 
-    def predict(self, testData):
+    def predict(self, x_test):
         print("predict")
-        xLearn = np.array(self.list.ix[:, 0:4])
-        yLearn = np.array(self.list['class'])
-        xTest = np.array(testData.ix[:, 0:4])
-        #yTest = np.array(testData.list['class'])
+        x_learn = self.data
+        y_learn = self.labels
 
-        listToReturn = []
+        list_to_return = []
 
-        for i in range(len(xTest)):
+        for i in range(len(x_test)):
             distances = []
             # Compute distances
-            for j in range(len(xLearn)):
-                distance = euclidean(xTest[i], xLearn[j])
+            for j in range(len(x_learn)):
+                distance = euclidean(x_test[i], x_learn[j])
                 distances.append([distance, j])
 
             # Sort distances
@@ -35,14 +36,12 @@ class KNN(object):
             targets = []
             for j in range(self.k):
                 index = distances[j][1]
-                targets.append(yLearn[index])
+                targets.append(y_learn[index])
 
             # Append most common target
-            listToReturn.append(Counter(targets).most_common(1)[0][0])
+            list_to_return.append(Counter(targets).most_common(1)[0][0])
 
-        return listToReturn
+        return list_to_return
 
-
-
-    def score(self, list):
+    def score(self, x_test):
         print("score")
