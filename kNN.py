@@ -1,7 +1,4 @@
-import pandas as pd
 import numpy as np
-import math as math
-import operator
 from scipy.spatial.distance import euclidean
 from collections import Counter
 
