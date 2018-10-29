@@ -10,13 +10,11 @@ class KNN(object):
     u"Klasa implementująca algorytm kNN realizujący zadanie klasyfikacji z metryką Euklidesowską."
 
     def __init__(self, learn_data, k):
-        print("hello")
         self.k = k
         self.data = np.array(learn_data.ix[:, 0:4])
         self.labels = np.array(learn_data['class'])
 
     def predict(self, x_test):
-        print("predict")
         x_learn = self.data
         y_learn = self.labels
 
@@ -43,5 +41,12 @@ class KNN(object):
 
         return list_to_return
 
-    def score(self, x_test):
-        print("score")
+    def score(self, x_test, y_test):
+        predicted = self.predict(x_test)
+
+        good = 0
+        for i in range(len(predicted)):
+            if predicted[i] == y_test[i]:
+                good += 1
+
+        return good / len(predicted)
